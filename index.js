@@ -1,15 +1,14 @@
-const express = require('express');
-const { resolve } = require('path');
+const express=require("express");
+const app=express();
+const mongoose=require("mongoose");
+const userRoutes=require("./routes/userRoutes")
+app.use(express.json());
+const PORT=3010;
 
-const app = express();
-const port = 3010;
+mongoose.connect("mongodb+srv://sanyathakurs69:sanya@cluster-data.lmjpn.mongodb.net/?retryWrites=true&w=majority&appName=Cluster-data")
+.then(()=>console.log("Connected to database"))
+.catch((err)=>console.log("Error connecting to database: ", err))
 
-app.use(express.static('static'));
+app.use("/api/users", userRoutes);
 
-app.get('/', (req, res) => {
-  res.sendFile(resolve(__dirname, 'pages/index.html'));
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`);
-});
+app.listen(PORT, ()=>console.log(`Server running on http://localhost:${PORT}`))
